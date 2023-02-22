@@ -12,4 +12,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(rubrosRouter)
 app.use(idClientes)
 app.use(indexRoute)
+
+
+
 export default app
