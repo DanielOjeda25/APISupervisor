@@ -7,3 +7,12 @@ GET http://localhost:3000/rubros
 
 GET http://localhost:3000/idClientes
 ###
+
+
+###
+
+
+POST   http://localhost:3000/gondolas
+content-type: application/json
+
+###
