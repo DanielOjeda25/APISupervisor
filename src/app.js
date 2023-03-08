@@ -16,6 +16,4 @@ app.use(idClientes)
 app.use(indexRoute)
 app.use(gondolasRoute)
 
-
-
 export default app
