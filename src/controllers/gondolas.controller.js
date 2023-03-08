@@ -9,12 +9,13 @@ const queryDB = (
   idvendedor,
   vendedor,
   supervisor,
+  rubro,
   imagen
 ) => {
   const query = `INSERT INTO [supervisor].[dbo].[gondolasData] 
-  (idcliente, nombre, nombre_localidad,nombre_provincia,idvendedor,vendedor, supervisor, imagen) 
+  (idcliente, nombre, nombre_localidad,nombre_provincia,idvendedor,vendedor, supervisor, rubro, imagen) 
   VALUES (${id}, '${nombre}', '${nombreLocalidad}', '${nombreProvincia}', ${idvendedor}, '${vendedor}', '
-  ${supervisor}', '${imagen}')`
+  ${supervisor}', '${rubro}', '${imagen}')`
   return query
 }
 
@@ -35,8 +36,8 @@ export const POSTGondola = async (req, res) => {
         'el dorado',
         'Misiones',
         6,
-        'Ojeda Daniel Alejandro',
-        'Supervisor XYZ',
+        'Ojeda Daniel Alejandro','Supervisor X',
+        'Lavado',
         'https://firebasestorage.googleapis.com/v0/b/supervisorapp-1f77a.appspot.com/o/Gondolas%2FImage-1676656368134?alt=media&token=f0f172a0-75d7-4bef-94a8-71545d6d75e3'
       ),
       (err, records) => {
@@ -51,6 +52,8 @@ export const POSTGondola = async (req, res) => {
     console.log(err)
   }
 }
+const query =
+  'SELECT [id],[idcliente],[nombre],[nombre_localidad],[nombre_provincia],[idvendedor] ,[vendedor] ,[supervisor] ,[rubro] ,[imagen] FROM [supervisor].[dbo].[gondolasData]'
 
 export const GetGondolas = async (req, res) => {
   const conexion = (err) => {
@@ -62,30 +65,26 @@ export const GetGondolas = async (req, res) => {
     }
     const request = new sql.Request()
 
-    request.query(
-      ` SELECT [id]
-      ,[idcliente]
-      ,[nombre]
-      ,[nombre_localidad]
-      ,[nombre_provincia]
-      ,[idvendedor]
-      ,[vendedor]
-      ,[supervisor]
-	  ,[imagen]
-  FROM [supervisor].[dbo].[gondolasData]`,
-      (err, records) => {
-        if (err) console.log(err)
-      
-        let image = records.recordset[1].imagen
-        const buf = new Buffer(image)
-        console.log(buf.toString())
-        res.set('Content-Type', 'application/json')
-      }
-    )
+    request.query(query, function (err, records) {
+      if (err) console.log(err)
+      //convertimos la imagen que viene de la db en formato de buffer a toString
+      res.set('Content-Type', 'application/json')
+      let result = transformImagen(records)
+      res.json(result)
+    })
   }
   try {
     new sql.connect(dbConfig, conexion)
   } catch (err) {
     console.log(err)
   }
+}
+function transformImagen(records) {
+  for (let i = 0; i < records.recordset.length; i++) {
+    let imagenBuffer = new Buffer.from(records.recordset[i].imagen)
+    imagenBuffer = imagenBuffer.toString()
+    delete records.recordset[i].imagen
+    records.recordset[i].imagen = imagenBuffer
+  }
+  return records.recordset
 }

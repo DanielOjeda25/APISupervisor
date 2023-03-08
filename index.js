@@ -1,5 +1,5 @@
 import app from './src/app.js';
 
-app.listen(3000);
-console.log(`server on port http://localhost:3000/`)
+app.listen(8080);
+console.log(`server on port http://localhost:8080/`)
 
