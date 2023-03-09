@@ -30,19 +30,19 @@ export const POSTGondola = async (_req, res) => {
     const request = new sql.Request()
     request.query(
       queryDB(
-        5,
-        'Danistry',
-        'el dorado',
+        3,
+        'Danistry Ojeda',
+        'Iguazu',
         'Misiones',
-        6,
-        'Ojeda Daniel Alejandro',
-        'Supervisor X',
-        'Lavado',
+        61,
+        'Ernesto Lucero',
+        'Supervisor O',
+        'Limpieza',
         'https://firebasestorage.googleapis.com/v0/b/supervisorapp-1f77a.appspot.com/o/Gondolas%2FImage-1676656368134?alt=media&token=f0f172a0-75d7-4bef-94a8-71545d6d75e3'
       ),
       (err, _records) => {
         if (err) console.log(err)
-        res.set('Content-Type', 'application/json')
+        res.set('Content-Type', 'application/json');
       }
     )
   }
