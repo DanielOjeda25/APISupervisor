@@ -19,7 +19,7 @@ const router = createBrowserRouter([
 		element: <Comercial />
 	},
 	{
-		path: "/Actualizacion",
+		path: "/actualizacion",
 		element: <Actualizacion />
 	}
 ]);
