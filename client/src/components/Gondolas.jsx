@@ -1,115 +1,120 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
-import {Link} from 'react-router-dom'
-import {optionsRubros, optionsClientes} from '../utils/gondolasUtils'
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { optionsRubros } from "../utils/gondolasUtils";
 
+const CLIENTES_OPTIONS = [
+	{ value: "cliente1", label: "Cliente 1" },
+	{ value: "cliente2", label: "Cliente 2" },
+	{ value: "cliente3", label: "Cliente 3" },
+];
 
-const initialValues = {
-  rubros: '',
-  clientes: '',
-  imagen: null,
-};
+function Gondolas() {
+	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
+	const [clientesSeleccionado, setClientesSeleccionado] = useState("");
+  const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-const onSubmit = (values) => {
-  console.log(values);
-};
-const validate = (values) => {
-  const errors = {};
-  if (!values.rubros) {
-    errors.rubros = 'Este campo es obligatorio';
-  }
-  if (!values.clientes) {
-    errors.clientes = 'Este campo es obligatorio';
-  }
-  return errors;
-};
-const Gondolas = () => {
-  return (
-    <div className="flex justify-center items-center h-screen bg-slate-800">
-       <Link to="/" className="absolute top-0 left-0 mt-4 ml-4 text-gray-200">
-        &lt; Volver a Home
-      </Link>
-      <Formik initialValues={initialValues} onSubmit={onSubmit} validate={validate}>
-        {({ setFieldValue }) => (
-          <Form className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-            <div className="mb-6">
-              <label
-                htmlFor="rubros"
-                className="block mb-2 text-lg font-medium text-gray-600"
-              >
-                Rubros
-              </label>
-              <Field
-                as="select"
-                name="rubros"
-                className="w-full border border-gray-400 p-2 rounded-lg shadow-lg focus:outline-none focus:border-indigo-500"
-              >
-                <option value="" disabled defaultValue>
-                  Selecciona una opción
-                </option>
-                {optionsRubros.map((option) => (
-                  <option value={option} key={option}>
-                    {option}
-                  </option>
-                ))}
-              </Field>
-            </div>
+	const onSubmit = (data) => {
+		console.log("Rubros seleccionado: ", rubrosSeleccionado);
+		console.log("Clientes seleccionado: ", clientesSeleccionado);
+		console.log("Imagen seleccionada: ", imagenSeleccionada);
+	};
 
-            <div className="mb-6">
-              <label
-                htmlFor="clientes"
-                className="block mb-2 text-lg font-medium text-gray-600"
-              >
-                Clientes
-              </label>
-              <Field
-                as="select"
-                name="clientes"
-                className="w-full border border-gray-400 p-2 rounded-lg shadow-lg focus:outline-none focus:border-indigo-500"
-              >
-                <option value="" disabled defaultValue>
-                  Selecciona una opción
-                </option>
-                {optionsClientes.map((option) => (
-                  <option value={option} key={option}>
-                    {option}
-                  </option>
-                ))}
-              </Field>
-            </div>
+	const handleRubrosChange = (event) => {
+		setRubrosSeleccionado(event.target.value);
+	};
 
-            <div className="mb-6">
-              <label
-                htmlFor="imagen"
-                className="block mb-2 text-lg font-medium text-gray-600"
-              >
-                Imagen
-              </label>
-              <input
-                id="imagen"
-                name="imagen"
-                type="file"
-                className="w-full border border-gray-400 p-2 rounded-lg shadow-lg focus:outline-none focus:border-indigo-500"
-                onChange={(event) => {
-                  setFieldValue(
-                    'imagen',
-                    event.currentTarget.files[0]
-                  );
-                }}
-              />
-            </div>
+	const handleClientesChange = (event) => {
+		setClientesSeleccionado(event.target.value);
+	};
+	const handleImagenChange = (event) => {
+		setImagenSeleccionada(event.target.files[0]);
+	};
 
-            <button
-              type="submit"
-              className="w-full bg-indigo-500 text-white p-2 rounded-lg shadow-lg hover:bg-indigo-700"
-            >
-              Enviar
-            </button>
-          </Form>
-        )}
-      </Formik>
-    </div>
-  );
-};
+	return (
+		<div className="flex justify-center items-center h-screen bg-gray-800">
+			<form
+				onSubmit={handleSubmit(onSubmit)}
+				className="max-w-md mx-auto border border-gray-200 p-6 rounded-lg bg-slate-100"
+			>
+				<div className="mb-4">
+					<label htmlFor="rubros" className="block mb-2 font-bold">
+						Rubros:
+					</label>
+					<select
+						id="rubros"
+						{...register("rubros", { required: true })}
+						value={rubrosSeleccionado}
+						onChange={handleRubrosChange}
+						className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+					>
+						<option value="">Seleccione un rubro</option>
+						{optionsRubros.map((option) => (
+							<option key={option.value} value={option.value}>
+								{option.value}
+							</option>
+						))}
+					</select>
+					{errors.rubros && (
+						<span className="text-red-500">Campo requerido</span>
+					)}
+				</div>
+				<div className="mb-4">
+					<label htmlFor="clientes" className="block mb-2 font-bold">
+						Clientes:
+					</label>
+					<select
+						id="clientes"
+						{...register("clientes", { required: true })}
+						value={clientesSeleccionado}
+						onChange={handleClientesChange}
+						className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+					>
+						<option value="">Seleccione un cliente</option>
+						{CLIENTES_OPTIONS.map((option) => (
+							<option key={option.value} value={option.value}>
+								{option.value}
+							</option>
+						))}
+					</select>
+					{errors.clientes && (
+						<span className="text-red-500">Campo requerido</span>
+					)}
+				</div>
+				<div className="mb-4">
+					<label htmlFor="imagen" className="block mb-2 font-bold">
+						Imagen:
+					</label>
+					<input
+						id="imagen"
+						type="file"
+						{...register("imagen", { required: true })}
+						onChange={handleImagenChange}
+						className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
+					/>
+					{errors.imagen && (
+						<span className="text-red-500">Campo requerido</span>
+					)}
+					{imagenSeleccionada && (
+						<img
+							src={URL.createObjectURL(imagenSeleccionada)}
+							alt="Imagen seleccionada"
+						/>
+					)}
+				</div>
+				<button
+					type="submit"
+					className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
+				>
+					Enviar
+				</button>
+			</form>
+		</div>
+	);
+}
 
 export default Gondolas;
