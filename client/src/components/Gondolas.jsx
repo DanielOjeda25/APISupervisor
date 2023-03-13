@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { optionsRubros } from "../utils/gondolasUtils";
-
+import BackButton from "./BotomBack";
 const CLIENTES_OPTIONS = [
 	{ value: "cliente1", label: "Cliente 1" },
 	{ value: "cliente2", label: "Cliente 2" },
@@ -11,7 +11,7 @@ const CLIENTES_OPTIONS = [
 function Gondolas() {
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
 	const [clientesSeleccionado, setClientesSeleccionado] = useState("");
-  const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
+	const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
 	const {
 		register,
 		handleSubmit,
@@ -37,6 +37,7 @@ function Gondolas() {
 
 	return (
 		<div className="flex justify-center items-center h-screen bg-gray-800">
+			<BackButton />
 			<form
 				onSubmit={handleSubmit(onSubmit)}
 				className="max-w-md mx-auto border border-gray-200 p-6 rounded-lg bg-slate-100"
