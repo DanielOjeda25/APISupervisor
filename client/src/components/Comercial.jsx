@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
 	localidadesOptions,
@@ -6,16 +6,40 @@ import {
 	tipoCanalOptions,
 	tipoClienteOptions,
 } from "../utils/ComercialUtils";
+import BackButton from "./BotomBack";
 
 export default function Comercial() {
 	const { register, handleSubmit } = useForm();
-	const [tabla, setTabla] = useState([]);
-	const onSubmit = (data) => {
-		console.log(data);
+	const [fechaSeleccionada, setFechaSeleccionada] = useState("");
+	const [localidadSeleccionada, setLocalidadSeleccionada] = useState("");
+	const [precioSeleccionado, setPrecioSeleccionado] = useState("");
+	const [tipoCanalSeleccionado, setTipoCanalSeleccionado] = useState("");
+	const [precioDiarioSeleccionado, setPrecioDiarioSeleccionado] = useState("");
+	const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
+	const [tiempoSeleccionado, setTiempoSeleccionado] = useState("");
+	const [tablaDatos, setTablaDatos] = useState(null);
+
+	const onSubmit = () => {
+		// Generar los datos de la tabla
+		const datos = [
+			{
+				fecha: fechaSeleccionada,
+				localidad: localidadSeleccionada,
+				precio: precioSeleccionado,
+				tipoCanal: tipoCanalSeleccionado,
+				precioDiario: precioDiarioSeleccionado,
+				tipoCliente: tipoClienteSeleccionado,
+				tiempo: tiempoSeleccionado,
+			},
+		];
+
+		// Actualizar el estado con los datos de la tabla
+		setTablaDatos(datos);
 	};
 
 	return (
-		<div className="max-w-sm mx-auto p-4 rounded-lg shadow-md">
+		<div className="max-w-sm mx-auto p-10 rounded-lg shadow-md">
+			<BackButton />
 			<form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-md">
 				<div className="flex flex-col space-y-4">
 					<label htmlFor="fecha" className="font-bold">
@@ -27,6 +51,7 @@ export default function Comercial() {
 						{...register("fecha")}
 						min="2000-01-01"
 						className="border border-gray-400 p-2"
+						onChange={(e) => setFechaSeleccionada(e.target.value)}
 					/>
 
 					<label htmlFor="localidad" className="font-bold">
@@ -36,6 +61,7 @@ export default function Comercial() {
 						id="localidad"
 						{...register("localidad")}
 						className="border border-gray-400 p-2"
+						onChange={(e) => setLocalidadSeleccionada(e.target.value)}
 					>
 						{localidadesOptions.map((option) => (
 							<option key={option.value} value={option.value}>
@@ -51,6 +77,7 @@ export default function Comercial() {
 						id="precio"
 						{...register("precio")}
 						className="border border-gray-400 p-2"
+						onChange={(e) => setPrecioSeleccionado(e.target.value)}
 					>
 						{preciosOptions.map((option) => (
 							<option key={option.value} value={option.value}>
@@ -66,6 +93,7 @@ export default function Comercial() {
 						id="tipoCanal"
 						{...register("tipoCanal")}
 						className="border border-gray-400 p-2"
+						onChange={(e) => setTipoCanalSeleccionado(e.target.value)}
 					>
 						{tipoCanalOptions.map((option) => (
 							<option key={option.value} value={option.value}>
@@ -81,6 +109,7 @@ export default function Comercial() {
 						id="precioDiario"
 						{...register("precioDiario")}
 						className="border border-gray-400 p-2"
+						onChange={(e) => setPrecioDiarioSeleccionado(e.target.value)}
 					>
 						{preciosOptions.map((option) => (
 							<option key={option.value} value={option.value}>
@@ -96,6 +125,7 @@ export default function Comercial() {
 						id="tipoCliente"
 						{...register("tipoCliente")}
 						className="border border-gray-400 p-2"
+						onChange={(e) => setTipoClienteSeleccionado(e.target.value)}
 					>
 						{tipoClienteOptions.map((option) => (
 							<option key={option.value} value={option.value}>
@@ -111,6 +141,7 @@ export default function Comercial() {
 						id="tiempo"
 						{...register("tiempo")}
 						className="border border-gray-400 p-2"
+						onChange={(e) => setTiempoSeleccionado(e.target.value)}
 					>
 						<option value="1">1 meses</option>
 						<option value="2">3 meses</option>
@@ -123,6 +154,36 @@ export default function Comercial() {
 					>
 						Enviar
 					</button>
+					{tablaDatos && (
+						<div className="overflow-x-auto w-full">
+							<table className="table-auto divide-y w-full text-center bg-gray-100 rounded-lg">
+								<thead>
+									<tr>
+										<th className="px-4 py-2">Fecha</th>
+										<th className="px-4 py-2">Localidad</th>
+										<th className="px-4 py-2">Precio</th>
+										<th className="px-4 py-2">Tipo de Canal</th>
+										<th className="px-4 py-2">Precio Diario</th>
+										<th className="px-4 py-2">Tipo de Cliente</th>
+										<th className="px-4 py-2">Tiempo</th>
+									</tr>
+								</thead>
+								<tbody>
+									{tablaDatos.map((datos, index) => (
+										<tr key={index}>
+											<td className="px-4 py-2">{datos.fecha}</td>
+											<td className="px-4 py-2">{datos.localidad}</td>
+											<td className="px-4 py-2">{datos.precio}</td>
+											<td className="px-4 py-2">{datos.tipoCanal}</td>
+											<td className="px-4 py-2">{datos.precioDiario}</td>
+											<td className="px-4 py-2">{datos.tipoCliente}</td>
+											<td className="px-4 py-2">{datos.tiempo}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					)}
 				</div>
 			</form>
 		</div>
