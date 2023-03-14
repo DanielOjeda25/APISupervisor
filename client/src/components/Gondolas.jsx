@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { optionsRubros } from "../utils/gondolasUtils";
 import BackButton from "./BotomBack";
+import axios from "axios";
+
 const CLIENTES_OPTIONS = [
 	{ value: "cliente1", label: "Cliente 1" },
 	{ value: "cliente2", label: "Cliente 2" },
@@ -9,6 +11,7 @@ const CLIENTES_OPTIONS = [
 ];
 
 function Gondolas() {
+	const [data, setData] = useState([]);
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
 	const [clientesSeleccionado, setClientesSeleccionado] = useState("");
 	const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
@@ -18,12 +21,23 @@ function Gondolas() {
 		formState: { errors },
 	} = useForm();
 
-	const onSubmit = (data) => {
+	useEffect(() => {
+		const fetchData = async () => {
+			const result = await axios("http://10.211.55.5:8080/idClientes").then(
+				(response) => setData(response.data),
+			);
+		};
+
+		fetchData();
+	}, []);
+	const onSubmit = () => {
 		console.log("Rubros seleccionado: ", rubrosSeleccionado);
 		console.log("Clientes seleccionado: ", clientesSeleccionado);
 		console.log("Imagen seleccionada: ", imagenSeleccionada);
 	};
-
+	function generateKey() {
+		return Math.random().toString(36).substring(2);
+	}
 	const handleRubrosChange = (event) => {
 		setRubrosSeleccionado(event.target.value);
 	};
@@ -76,9 +90,9 @@ function Gondolas() {
 						className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
 					>
 						<option value="">Seleccione un cliente</option>
-						{CLIENTES_OPTIONS.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.value}
+						{data.map((option) => (
+							<option key={generateKey()} value={option.value}>
+								{option.nombre}
 							</option>
 						))}
 					</select>
