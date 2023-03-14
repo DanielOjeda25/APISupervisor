@@ -9,9 +9,9 @@ const query =
 export const getIdCliente = async (req, res) => {
   const conexion = (err) => {
     if (err) {
-      console.log('Error while connecting database: ' + err)
+      console.log(`Error while connecting database: ${err}`)
     } else {
-      console.log('connected to database: ' + dbConfig.server)
+      console.log(`connected to database: ${dbConfig.server}`)
     }
     const request = new sql.Request()
 
