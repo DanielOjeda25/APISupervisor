@@ -4,17 +4,12 @@ import { optionsRubros } from "../utils/gondolasUtils";
 import BackButton from "./BotomBack";
 import axios from "axios";
 
-const CLIENTES_OPTIONS = [
-	{ value: "cliente1", label: "Cliente 1" },
-	{ value: "cliente2", label: "Cliente 2" },
-	{ value: "cliente3", label: "Cliente 3" },
-];
-
 function Gondolas() {
 	const [data, setData] = useState([]);
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
 	const [clientesSeleccionado, setClientesSeleccionado] = useState("");
 	const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
+
 	const {
 		register,
 		handleSubmit,
@@ -23,18 +18,46 @@ function Gondolas() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const result = await axios("http://10.211.55.5:8080/idClientes").then(
-				(response) => setData(response.data),
+			await axios("http://10.211.55.5:8080/idClientes").then((response) =>
+				setData(response.data),
 			);
 		};
 
 		fetchData();
 	}, []);
-	const onSubmit = () => {
-		console.log("Rubros seleccionado: ", rubrosSeleccionado);
-		console.log("Clientes seleccionado: ", clientesSeleccionado);
-		console.log("Imagen seleccionada: ", imagenSeleccionada);
+	const onSubmit = async () => {
+		const data = {
+			rubro: rubrosSeleccionado,
+			cliente: clientesSeleccionado,
+			imagen: imagenSeleccionada,
+		};
+
+		console.log(data);
+		const formData = new FormData();
+		formData.append("rubro", rubrosSeleccionado);
+		formData.append("nombre", clientesSeleccionado);
+		formData.append("imagen", imagenSeleccionada);
+
+		try {
+			const response = await axios.post(
+				"http://10.211.55.5:8080/gondolas",
+				formData,
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				},
+			);
+
+			console.log(response);
+		} catch (error) {
+			console.error(error);
+		}
+		setClientesSeleccionado('')
+		setRubrosSeleccionado('');
+		setImagenSeleccionada(null);
 	};
+
 	function generateKey() {
 		return Math.random().toString(36).substring(2);
 	}
@@ -96,6 +119,8 @@ function Gondolas() {
 							</option>
 						))}
 					</select>
+					<p>{data.nombre_localidad}</p>
+
 					{errors.clientes && (
 						<span className="text-red-500">Campo requerido</span>
 					)}
