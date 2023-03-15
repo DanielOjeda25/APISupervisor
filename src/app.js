@@ -9,7 +9,7 @@ import bodyParser from 'body-parser'
 const app = express()
 app.set('port', config.port)
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }))
+app.use(express.urlencoded({ extended: false }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors())
 app.use(rubrosRouter)
