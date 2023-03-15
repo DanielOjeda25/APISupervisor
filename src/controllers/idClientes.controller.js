@@ -2,7 +2,7 @@ import sql from 'mssql/msnodesqlv8.js'
 import dbConfig from '../dbConfig.js'
 
 const query =
-  "SELECT DISTINCT [idcliente],[nombre],[nombre_localidad],[vendedor],[supervisor] FROM [Bamana].[dbo].[vwCuboClientes] WHERE [nombre_provincia] = 'MISIONES'"
+  "SELECT DISTINCT [idcliente],[nombre],[nombre_localidad],[vendedor],[supervisor] FROM [Bamana].[dbo].[vwCuboClientes] WHERE [nombre_provincia] = 'MISIONES' ORDER BY [nombre] ASC"
 //
 //old query SELECT DISTINCT [idcliente],[nombre],[nombre_localidad],[nombre_provincia],[idvendedor],[vendedor],[supervisor] FROM [Bamana].[dbo].[vwCuboClientes] WHERE [nombre_provincia] = 'MISIONES'
 
