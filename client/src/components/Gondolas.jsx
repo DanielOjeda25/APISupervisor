@@ -3,8 +3,6 @@ import { useForm } from "react-hook-form";
 import { optionsRubros } from "../utils/gondolasUtils";
 import BackButton from "./BotomBack";
 import axios from "axios";
-import Select, { components } from "react-select";
-
 function Gondolas() {
 	const [data, setData] = useState([]);
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
@@ -19,9 +17,8 @@ function Gondolas() {
 
 	useEffect(() => {
 		const fetchData = async () => {
-			await axios("http://10.211.55.5:8080/idClientes").then((response) =>
-				setData(response.data),
-			);
+			const response = await axios("http://10.211.55.5:8080/idClientes");
+			setData(response.data);
 		};
 
 		fetchData();
@@ -33,7 +30,7 @@ function Gondolas() {
 			imagen: imagenSeleccionada,
 		};
 
-		console.log(data);
+		console.table(data);
 		const formData = new FormData();
 		formData.append("rubro", rubrosSeleccionado);
 		formData.append("nombre", clientesSeleccionado);
@@ -75,24 +72,6 @@ function Gondolas() {
 	const handleImagenChange = (event) => {
 		setImagenSeleccionada(event.target.files[0]);
 	};
-	/* 	
-	const Option = (props) => {
-		return (
-			<components.Option
-				{...props}
-				className="bg-white hover:bg-gray-100 px-4 py-2"
-			>
-				{data.map((option) => (
-					<>
-						<div className="text-gray-900 font-medium">{option.nombre}</div>
-						<div className="text-gray-500 text-xs">supervisor: {option.supervisor}</div>
-						<div className="text-gray-500 text-xs">vendedor: {option.vendedor}</div>
-						<div className="text-gray-500 text-xs">localidad: {option.nombre_localidad}</div>
-					</>
-				))}
-			</components.Option>
-		);
-	}; */
 	return (
 		<div className="flex justify-center items-center h-screen bg-gray-800 flex-col">
 			<BackButton />
@@ -141,8 +120,6 @@ function Gondolas() {
 							</option>
 						))}
 					</select>
-					{/* <Select options={options} components={{ Option }} />
-					 */}
 					{errors.clientes && (
 						<span className="text-red-500">Campo requerido</span>
 					)}
@@ -151,13 +128,28 @@ function Gondolas() {
 					<label htmlFor="imagen" className="block mb-2 font-bold">
 						Imagen:
 					</label>
-					<input
-						id="imagen"
-						type="file"
-						{...register("imagen", { required: true })}
-						onChange={handleImagenChange}
-						className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
-					/>
+					<div className="relative">
+						<input
+							id="imagen"
+							type="file"
+							{...register("imagen", { required: true })}
+							onChange={handleImagenChange}
+							className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500 bg-white"
+						/>
+						<div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+							<svg
+								className="h-6 w-6 text-gray-400"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								viewBox="0 0 24 24"
+								stroke="currentColor"
+							>
+								<path d="M12 4v16m8-8H4" />
+							</svg>
+						</div>
+					</div>
 					{errors.imagen && (
 						<span className="text-red-500">Campo requerido</span>
 					)}
@@ -168,6 +160,7 @@ function Gondolas() {
 						/>
 					)}
 				</div>
+
 				<button
 					type="submit"
 					className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
