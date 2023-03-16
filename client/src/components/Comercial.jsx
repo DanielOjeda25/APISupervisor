@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
+	vendedorOptions,
 	localidadesOptions,
 	preciosOptions,
 	tipoCanalOptions,
@@ -12,9 +13,9 @@ export default function Comercial() {
 	const { register, handleSubmit } = useForm();
 	const [fechaSeleccionada, setFechaSeleccionada] = useState("");
 	const [localidadSeleccionada, setLocalidadSeleccionada] = useState("");
-	const [precioSeleccionado, setPrecioSeleccionado] = useState("");
+	const [listaPrecio, setListaPrecio] = useState("");
 	const [tipoCanalSeleccionado, setTipoCanalSeleccionado] = useState("");
-	const [precioDiarioSeleccionado, setPrecioDiarioSeleccionado] = useState("");
+	const [vendedor, setVendedor] = useState("");
 	const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
 	const [tiempoSeleccionado, setTiempoSeleccionado] = useState("");
 	const [tablaDatos, setTablaDatos] = useState(null);
@@ -25,14 +26,14 @@ export default function Comercial() {
 			{
 				fecha: fechaSeleccionada,
 				localidad: localidadSeleccionada,
-				precio: precioSeleccionado,
+				precio: listaPrecio,
 				tipoCanal: tipoCanalSeleccionado,
-				precioDiario: precioDiarioSeleccionado,
+				precioDiario: vendedor,
 				tipoCliente: tipoClienteSeleccionado,
 				tiempo: tiempoSeleccionado,
 			},
 		];
-
+		console.table(datos);
 		// Actualizar el estado con los datos de la tabla
 		setTablaDatos(datos);
 	};
@@ -71,13 +72,13 @@ export default function Comercial() {
 					</select>
 
 					<label htmlFor="precio" className="font-bold">
-						Precios:
+						Lista Precios:
 					</label>
 					<select
 						id="precio"
 						{...register("precio")}
 						className="border border-gray-400 p-2"
-						onChange={(e) => setPrecioSeleccionado(e.target.value)}
+						onChange={(e) => setListaPrecio(e.target.value)}
 					>
 						{preciosOptions.map((option) => (
 							<option key={option.value} value={option.value}>
@@ -102,16 +103,16 @@ export default function Comercial() {
 						))}
 					</select>
 
-					<label htmlFor="precioDiario" className="font-bold">
-						Precio Diario:
+					<label htmlFor="vendedor" className="font-bold">
+						Vendedor:
 					</label>
 					<select
-						id="precioDiario"
-						{...register("precioDiario")}
+						id="vendedor"
+						{...register("vendedor")}
 						className="border border-gray-400 p-2"
-						onChange={(e) => setPrecioDiarioSeleccionado(e.target.value)}
+						onChange={(e) => setVendedor(e.target.value)}
 					>
-						{preciosOptions.map((option) => (
+						{vendedorOptions.map((option) => (
 							<option key={option.value} value={option.value}>
 								{option.label}
 							</option>
@@ -173,7 +174,7 @@ export default function Comercial() {
 										<tr key={index}>
 											<td className="px-4 py-2">{datos.fecha}</td>
 											<td className="px-4 py-2">{datos.localidad}</td>
-											<td className="px-4 py-2">{datos.precio}</td>
+											<td className="px-4 py-2">{datos.listaPrecio}</td>
 											<td className="px-4 py-2">{datos.tipoCanal}</td>
 											<td className="px-4 py-2">{datos.precioDiario}</td>
 											<td className="px-4 py-2">{datos.tipoCliente}</td>
