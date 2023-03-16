@@ -4,23 +4,14 @@ import dbConfig from '../dbConfig.js'
 const query = 'SELECT DISTINCT [rubro] FROM [Bamana].[dbo].[vwCuboInventario]'
 
 export const getRubros = async (req, res) => {
-  const conexion = (err) => {
-    if (err) {
-      console.log(`Error while connecting database: ${err}`)
-    } else {
-      console.log(`connected to database: ${dbConfig.server}`)
-    }
-    const request = new sql.Request()
-
-    request.query(query, (err, records) => {
-      if (err) console.log(err)
-      res.set('Content-Type', 'application/json')
-      res.json(records.recordset)
-    })
-  }
   try {
-    new sql.connect(dbConfig, conexion)
+    const pool = await sql.connect(dbConfig);
+    const result = await pool.request().query(query);
+    res.set('Content-Type', 'application/json');
+    res.json(result.recordset);
+    pool.close();
   } catch (err) {
-    console.log(err)
+    console.log(`Error while querying database: ${err}`);
+    res.status(500).send(`Error while querying database: ${err}`);
   }
 }
