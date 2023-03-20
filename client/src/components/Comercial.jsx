@@ -26,9 +26,9 @@ export default function Comercial() {
 			{
 				fecha: fechaSeleccionada,
 				localidad: localidadSeleccionada,
-				precio: listaPrecio,
+				listaPrecio: listaPrecio,
 				tipoCanal: tipoCanalSeleccionado,
-				precioDiario: vendedor,
+				vendedor: vendedor,
 				tipoCliente: tipoClienteSeleccionado,
 				tiempo: tiempoSeleccionado,
 			},
@@ -162,7 +162,7 @@ export default function Comercial() {
 									<tr>
 										<th className="px-4 py-2">Fecha</th>
 										<th className="px-4 py-2">Localidad</th>
-										<th className="px-4 py-2">Precio</th>
+										<th className="px-4 py-2">Lista de Precio</th>
 										<th className="px-4 py-2">Tipo de Canal</th>
 										<th className="px-4 py-2">Precio Diario</th>
 										<th className="px-4 py-2">Tipo de Cliente</th>
