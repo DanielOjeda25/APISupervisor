@@ -4,6 +4,10 @@ import { optionsRubros } from "../utils/gondolasUtils";
 import BackButton from "./BotomBack";
 import axios from "axios";
 import Spinner from "./spinner";
+import ImagenInput from "./ImagenInput";
+import Submit from "./Submit";
+import SelectOptions from "./SelectOptions";
+
 function Gondolas() {
 	const [data, setData] = useState([]);
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
@@ -15,7 +19,9 @@ function Gondolas() {
 		register,
 		handleSubmit,
 		formState: { errors },
-	} = useForm();
+	} = useForm({
+		mode: "onBlur",
+	});
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -91,33 +97,19 @@ function Gondolas() {
 						onSubmit={handleSubmit(onSubmit)}
 						className="max-w-md mx-auto border border-gray-200 p-6 rounded-lg bg-slate-100"
 					>
-						<div className="mb-4">
-							<label htmlFor="rubros" className="block mb-2 font-bold">
-								Rubros:
-							</label>
-							<select
-								id="rubros"
-								{...register("rubros", { required: true })}
-								value={rubrosSeleccionado}
-								onChange={handleRubrosChange}
-								className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
-							>
-								<option value="">Seleccione un rubro</option>
-								{optionsRubros.map((option) => (
-									<option key={option.value} value={option.value}>
-										{option.value}
-									</option>
-								))}
-							</select>
-							{errors.rubros && (
-								<span className="text-red-500">Campo requerido</span>
-							)}
-						</div>
+						<SelectOptions
+							label={"Rubros: "}
+							options={optionsRubros}
+							value={rubrosSeleccionado}
+							onChange={handleRubrosChange}
+							error={errors}
+						/>
 						<div className="mb-4">
 							<label htmlFor="clientes" className="block mb-2 font-bold">
 								Clientes:
 							</label>
 							<select
+								required
 								id="clientes"
 								{...register("clientes", { required: true })}
 								value={clientesSeleccionado}
@@ -136,16 +128,7 @@ function Gondolas() {
 							)}
 						</div>
 						<div className="mb-4">
-							<label className="block mb-2 font-bold" htmlFor="imagen">
-								Imagen:
-							</label>
-							<input
-								{...register("imagen", { required: true })}
-								onChange={handleImagenChange}
-								className="block w-full mb-5 text-xs text-gray-900  rounded cursor-pointer bg-gray-50 focus:outline-none"
-								id="imagen"
-								type="file"
-							/>
+							<ImagenInput handleImagenChange={handleImagenChange} />
 							{errors.imagen && (
 								<span className="text-red-500">Campo requerido</span>
 							)}
@@ -157,20 +140,7 @@ function Gondolas() {
 								/>
 							)}
 						</div>
-
-						<button
-							type="submit"
-							className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300"
-						>
-							<svg
-								className="w-4 h-4 mr-2 text-white inline-block align-text-bottom"
-								xmlns="http://www.w3.org/2000/svg"
-								viewBox="0 0 20 20"
-							>
-								<path fill="currentColor" d="M10 0l8 8h-6v12h-4v-12h-6l8-8z" />
-							</svg>
-							Enviar
-						</button>
+						<Submit />
 					</form>
 				</>
 			)}
