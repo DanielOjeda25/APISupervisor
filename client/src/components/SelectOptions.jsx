@@ -1,6 +1,6 @@
 import React from "react";
 
-const SelectOptions = ({ label, options, value, onChange, error }) => {
+const SelectOptions = ({ label, options, value, onChange }) => {
 	return (
 		<div className="mb-4">
 			<label htmlFor={label} className="block mb-2 font-bold">
@@ -20,9 +20,6 @@ const SelectOptions = ({ label, options, value, onChange, error }) => {
 					</option>
 				))}
 			</select>
-			{/* {error && (
-				<span className="text-red-500 ml-2 text-xs">Campo requerido</span>
-			)} */}
 		</div>
 	);
 };
