@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
-    "dev": "nodemon index.js --exec babel-node "
+    "dev": "nodemon src/index.js --exec babel-node ",
+    "build": "set NODE_ENV=production&& babel src -d dist",
+    "start": "node dist/index.js"
   },
   "keywords": [],
   "author": "",

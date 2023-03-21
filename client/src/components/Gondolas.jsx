@@ -24,44 +24,31 @@ function Gondolas() {
 	});
 
 	useEffect(() => {
-		const fetchData = async () => {
-			setIsLoading(true);
-			try {
-				const response = await axios("http://10.211.55.5:8080/idClientes");
-				setData(response.data);
-			} catch (error) {
-				console.error(error);
-				alert("Ha ocurrido un error al cargar los clientes.");
-			} finally {
-				setIsLoading(false);
-			}
-		};
-
 		fetchData();
 	}, []);
-	const onSubmit = async () => {
-		const data = {
-			rubro: rubrosSeleccionado,
-			cliente: clientesSeleccionado,
-			imagen: imagenSeleccionada,
-		};
-
-		console.table(data);
+	const fetchData = async () => {
+		setIsLoading(true);
+		try {
+			const response = await axios("http://10.211.55.5:8080/idClientes");
+			setData(response.data);
+		} catch (error) {
+			console.error(error);
+			alert("Ha ocurrido un error al cargar los clientes.");
+		} finally {
+			setIsLoading(false);
+		}
+	};
+	const postGondolas = async () => {
 		const formData = new FormData();
 		formData.append("rubro", rubrosSeleccionado);
 		formData.append("nombre", clientesSeleccionado);
 		formData.append("imagen", imagenSeleccionada);
-
 		try {
-			const response = await axios.post(
-				"http://10.211.55.5:8080/gondolas",
-				formData,
-				{
-					headers: {
-						"Content-Type": "application/json",
-					},
+			await axios.post("http://10.211.55.5:8080/gondolas", formData, {
+				headers: {
+					"Content-Type": "application/json",
 				},
-			);
+			});
 			alert("¡El formulario se ha enviado correctamente!");
 		} catch (error) {
 			console.error(error);
@@ -71,6 +58,16 @@ function Gondolas() {
 			setClientesSeleccionado("");
 			setRubrosSeleccionado("");
 		}
+	};
+	const onSubmit = async () => {
+		const data = {
+			rubro: rubrosSeleccionado,
+			cliente: clientesSeleccionado,
+			imagen: imagenSeleccionada,
+		};
+
+		console.log(data);
+		await postGondolas();
 	};
 
 	function generateKey() {
@@ -133,11 +130,22 @@ function Gondolas() {
 								<span className="text-red-500">Campo requerido</span>
 							)}
 							{imagenSeleccionada && (
-								<img
-									src={URL.createObjectURL(imagenSeleccionada)}
-									alt="Imagen seleccionada"
-									className="w-full h-auto"
-								/>
+								<>
+									<div className="relative">
+										{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+										<p
+											className="absolute top-1 right-2 bg-white rounded-full text-red-600 text-2xl "
+											onClick={() => setImagenSeleccionada(null)}
+										>
+											&#10007;
+										</p>
+										<img
+											src={URL.createObjectURL(imagenSeleccionada)}
+											alt="Imagen seleccionada"
+											className="w-full h-auto"
+										/>
+									</div>
+								</>
 							)}
 						</div>
 						<Submit />
