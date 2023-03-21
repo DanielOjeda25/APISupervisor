@@ -7,6 +7,7 @@ import Spinner from "./spinner";
 import ImagenInput from "./ImagenInput";
 import Submit from "./Submit";
 import SelectOptions from "./SelectOptions";
+import Select from "react-select";
 
 function Gondolas() {
 	const [data, setData] = useState([]);
@@ -41,7 +42,7 @@ function Gondolas() {
 	const postGondolas = async () => {
 		const formData = new FormData();
 		formData.append("rubro", rubrosSeleccionado);
-		formData.append("nombre", clientesSeleccionado);
+		formData.append("nombre", clientesSeleccionado.value);
 		formData.append("imagen", imagenSeleccionada);
 		try {
 			await axios.post("http://10.211.55.5:8080/gondolas", formData, {
@@ -77,8 +78,8 @@ function Gondolas() {
 		setRubrosSeleccionado(event.target.value);
 	};
 
-	const handleClientesChange = (event) => {
-		setClientesSeleccionado(event.target.value);
+	const handleClientesChange = (option) => {
+		setClientesSeleccionado(option);
 	};
 	const handleImagenChange = (event) => {
 		setImagenSeleccionada(event.target.files[0]);
@@ -105,21 +106,19 @@ function Gondolas() {
 							<label htmlFor="clientes" className="block mb-2 font-bold">
 								Clientes:
 							</label>
-							<select
+							<Select
 								required
 								id="clientes"
-								{...register("clientes", { required: true })}
+								name="clientes"
+								options={data.map((cliente) => ({
+									value: cliente.nombre,
+									label: cliente.nombre,
+								}))}
 								value={clientesSeleccionado}
 								onChange={handleClientesChange}
-								className="w-full px-3 py-2 border rounded-lg shadow-sm focus:outline-none focus:border-blue-500"
-							>
-								<option value="">Seleccione un cliente</option>
-								{data.map((option) => (
-									<option key={generateKey()} value={option.value}>
-										{option.nombre}
-									</option>
-								))}
-							</select>
+								classNamePrefix="react-select"
+							/>
+
 							{errors.clientes && (
 								<span className="text-red-500">Campo requerido</span>
 							)}

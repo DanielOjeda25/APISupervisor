@@ -1,6 +1,7 @@
 import React from "react";
 
 const SelectOptions = ({ label, options, value, onChange }) => {
+	
 	return (
 		<div className="mb-4">
 			<label htmlFor={label} className="block mb-2 font-bold">
