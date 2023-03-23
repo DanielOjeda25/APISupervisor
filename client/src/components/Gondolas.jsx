@@ -1,34 +1,32 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { optionsRubros } from "../utils/gondolasUtils";
-import BackButton from "./BotomBack";
 import axios from "axios";
-import Spinner from "./spinner";
-import ImagenInput from "./ImagenInput";
-import Submit from "./Submit";
-import SelectOptions from "./SelectOptions";
 import Select from "react-select";
-import { initializeApp } from "firebase/app";
+import BackButton from "./BotomBack";
+import SelectOptions from "./SelectOptions";
+import Spinner from "./spinner";
+import Submit from "./Submit";
 import {
+	getDownloadURL,
 	getStorage,
 	ref,
 	uploadBytesResumable,
-	getDownloadURL,
 } from "firebase/storage";
+import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../firebase/firebase.config";
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+import { optionsRubros } from "../utils/gondolasUtils";
+
 function Gondolas() {
+	const app = initializeApp(firebaseConfig);
+	const storage = getStorage(app);
 	const [data, setData] = useState([]);
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
 	const [clientesSeleccionado, setClientesSeleccionado] = useState("");
-	const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
-
 	const [file, setFile] = useState(null);
 	const [url, setUrl] = useState("");
 	const [error, setError] = useState("");
+
 	const handleChange = (event) => {
 		setFile(event.target.files[0]);
 	};
@@ -42,21 +40,20 @@ function Gondolas() {
 				(snapshot) => {
 					const progress =
 						(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-					console.log(`Upload is ${progress}% done`);
+					alert(`Imagen Subiendose, espere un momento. ${progress}% `);
 				},
 				(error) => {
-					setError(`Upload error: ${error.message}`);
+					setError(`Error al subir: ${error.message}`);
 				},
 				() => {
 					getDownloadURL(uploadTask.snapshot.ref).then((getUrl) => {
 						setUrl(getUrl);
 						setFile(null);
-						console.log(getUrl);
 					});
 				},
 			);
 		} else {
-			setError("Please select a file to upload.");
+			setError("Por favor selecciona una foto.");
 		}
 	};
 	const {
@@ -97,22 +94,12 @@ function Gondolas() {
 			console.error(error);
 			alert("Ha ocurrido un error al enviar el formulario.");
 		} finally {
-			setImagenSeleccionada(null);
-			setUrl('')
+			setUrl("");
 			setClientesSeleccionado("");
 			setRubrosSeleccionado("");
 		}
 	};
-	const onSubmit = async () => {
-		const data = {
-			rubro: rubrosSeleccionado,
-			cliente: clientesSeleccionado,
-			imagen: url,
-		};
-
-		console.log(data);
-		await postGondolas();
-	};
+	const onSubmit = async () => await postGondolas();
 
 	const handleRubrosChange = (event) => {
 		setRubrosSeleccionado(event.target.value);
@@ -161,30 +148,48 @@ function Gondolas() {
 								<span className="text-red-500">Campo requerido</span>
 							)}
 						</div>
-						<div className="mb-4">
-							<input type="file" onChange={handleChange} />
-							<button onClick={handleUpload} type='button'>
-								Subir Foto
-							</button>
-							{error && <div>{error}</div>}
+						<div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+							<div class="w-full">
+								<input
+									type="file"
+									class="border rounded p-1 w-full"
+									onChange={handleChange}
+								/>
+							</div>
+							<div class="w-full">
+								<button
+									class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-full md:w-auto"
+									onClick={handleUpload}
+									type='button'
+								>
+									Subir Foto
+								</button>
+							</div>
+							{error && <div class="w-full text-center">{error}</div>}
 							{errors.imagen && (
 								<span className="text-red-500">Campo requerido</span>
 							)}
 							{url && (
-								<>
-									<div className="relative">
-										{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-										<p
-											className="absolute top-1 right-2 bg-white rounded-full text-red-600 text-2xl "
-											onClick={() => setUrl(null)}
-										>
-											&#10007;
-										</p>
-										{url && <img src={url} alt="Uploaded file" />}
-									</div>
-								</>
+								<div class="relative w-full md:w-auto">
+									{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+									<p
+										class="absolute top-1 right-2 bg-white rounded-full text-red-600 text-2xl cursor-pointer"
+										onClick={() => setUrl(null)}
+									>
+										&#10007;
+									</p>
+									{url && (
+										<img
+											src={url}
+											alt="Uploaded file"
+											class="w-full h-40 
+											 object-center rounded-lg"
+										/>
+									)}
+								</div>
 							)}
 						</div>
+
 						<Submit />
 					</form>
 				</>
