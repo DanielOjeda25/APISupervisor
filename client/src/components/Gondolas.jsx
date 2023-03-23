@@ -8,7 +8,17 @@ import ImagenInput from "./ImagenInput";
 import Submit from "./Submit";
 import SelectOptions from "./SelectOptions";
 import Select from "react-select";
-
+import { initializeApp } from "firebase/app";
+import {
+	getStorage,
+	ref,
+	uploadBytesResumable,
+	getDownloadURL,
+} from "firebase/storage";
+import { firebaseConfig } from "../firebase/firebase.config";
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
 function Gondolas() {
 	const [data, setData] = useState([]);
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
@@ -16,8 +26,40 @@ function Gondolas() {
 	const [imagenSeleccionada, setImagenSeleccionada] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
+	const [file, setFile] = useState(null);
+	const [url, setUrl] = useState("");
+	const [error, setError] = useState("");
+	const handleChange = (event) => {
+		setFile(event.target.files[0]);
+	};
+	const handleUpload = () => {
+		if (file) {
+			const storageRef = ref(storage, `images/${file.name}`);
+			const uploadTask = uploadBytesResumable(storageRef, file);
+
+			uploadTask.on(
+				"state_changed",
+				(snapshot) => {
+					const progress =
+						(snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+					console.log(`Upload is ${progress}% done`);
+				},
+				(error) => {
+					setError(`Upload error: ${error.message}`);
+				},
+				() => {
+					getDownloadURL(uploadTask.snapshot.ref).then((getUrl) => {
+						setUrl(getUrl);
+						setFile(null);
+						console.log(getUrl);
+					});
+				},
+			);
+		} else {
+			setError("Please select a file to upload.");
+		}
+	};
 	const {
-		register,
 		handleSubmit,
 		formState: { errors },
 	} = useForm({
@@ -43,7 +85,7 @@ function Gondolas() {
 		const formData = new FormData();
 		formData.append("rubro", rubrosSeleccionado);
 		formData.append("nombre", clientesSeleccionado.value);
-		formData.append("imagen", imagenSeleccionada);
+		formData.append("imagen", url);
 		try {
 			await axios.post("http://10.211.55.5:8080/gondolas", formData, {
 				headers: {
@@ -56,6 +98,7 @@ function Gondolas() {
 			alert("Ha ocurrido un error al enviar el formulario.");
 		} finally {
 			setImagenSeleccionada(null);
+			setUrl('')
 			setClientesSeleccionado("");
 			setRubrosSeleccionado("");
 		}
@@ -64,16 +107,13 @@ function Gondolas() {
 		const data = {
 			rubro: rubrosSeleccionado,
 			cliente: clientesSeleccionado,
-			imagen: imagenSeleccionada,
+			imagen: url,
 		};
 
 		console.log(data);
 		await postGondolas();
 	};
 
-	function generateKey() {
-		return Math.random().toString(36).substring(2);
-	}
 	const handleRubrosChange = (event) => {
 		setRubrosSeleccionado(event.target.value);
 	};
@@ -81,9 +121,7 @@ function Gondolas() {
 	const handleClientesChange = (option) => {
 		setClientesSeleccionado(option);
 	};
-	const handleImagenChange = (event) => {
-		setImagenSeleccionada(event.target.files[0]);
-	};
+
 	return (
 		<div className="flex justify-center items-center h-screen bg-gray-800 flex-col">
 			{isLoading ? (
@@ -124,25 +162,25 @@ function Gondolas() {
 							)}
 						</div>
 						<div className="mb-4">
-							<ImagenInput handleImagenChange={handleImagenChange} />
+							<input type="file" onChange={handleChange} />
+							<button onClick={handleUpload} type='button'>
+								Subir Foto
+							</button>
+							{error && <div>{error}</div>}
 							{errors.imagen && (
 								<span className="text-red-500">Campo requerido</span>
 							)}
-							{imagenSeleccionada && (
+							{url && (
 								<>
 									<div className="relative">
 										{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 										<p
 											className="absolute top-1 right-2 bg-white rounded-full text-red-600 text-2xl "
-											onClick={() => setImagenSeleccionada(null)}
+											onClick={() => setUrl(null)}
 										>
 											&#10007;
 										</p>
-										<img
-											src={URL.createObjectURL(imagenSeleccionada)}
-											alt="Imagen seleccionada"
-											className="w-full h-auto"
-										/>
+										{url && <img src={url} alt="Uploaded file" />}
 									</div>
 								</>
 							)}
