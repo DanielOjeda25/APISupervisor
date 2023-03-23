@@ -14,7 +14,7 @@ const Submit = () => {
 				>
 					<path fill="currentColor" d="M10 0l8 8h-6v12h-4v-12h-6l8-8z" />
 				</svg>
-				Enviar
+				Enviar Datos.
 			</button>
 		</div>
 	);
