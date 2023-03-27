@@ -31,14 +31,6 @@ export const GetGondolas = async (req, res) => {
 		const query = queryDBGondolas();
 		const result = await pool.request().query(query);
 		let records = result.recordset;
-		for (let i = 0; i < records.length; i++) {
-			let imagenBuffer = new Buffer.from(records[i].imagen);
-			imagenBuffer = imagenBuffer.toString();
-      console.log(imagenBuffer)
-			// rome-ignore lint/performance/noDelete: <explanation> */
-			delete records[i].imagen;
-			records[i].imagen = imagenBuffer;
-		}
 		res.status(200).json(records);
 	} catch (err) {
 		console.log(err);
