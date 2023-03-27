@@ -14,6 +14,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
 	cors({
 		origin: "http://127.0.0.1:5173",
+		origin: "http://localhost:4000",
+		origin: "http://10.211.55.5:8080/idClientes",
+		origin: '*'
 	}),
 );
 app.use(rubrosRouter);
