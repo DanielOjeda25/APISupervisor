@@ -148,32 +148,32 @@ function Gondolas() {
 								<span className="text-red-500">Campo requerido</span>
 							)}
 						</div>
-						<div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-							<div class="w-full">
+						<div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
+							<div className="w-full">
 								<input
 									type="file"
-									class="border rounded p-1 w-full"
+									className="border rounded p-1 w-full"
 									onChange={handleChange}
 								/>
 							</div>
-							<div class="w-full">
+							<div className="w-full">
 								<button
-									class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-full md:w-auto"
+									className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-full md:w-auto"
 									onClick={handleUpload}
 									type='button'
 								>
 									Subir Foto
 								</button>
 							</div>
-							{error && <div class="w-full text-center">{error}</div>}
+							{error && <div className="w-full text-center">{error}</div>}
 							{errors.imagen && (
 								<span className="text-red-500">Campo requerido</span>
 							)}
 							{url && (
-								<div class="relative w-full md:w-auto">
+								<div className="relative w-full md:w-auto">
 									{/* rome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
 									<p
-										class="absolute top-1 right-2 bg-white rounded-full text-red-600 text-2xl cursor-pointer"
+										className="absolute top-1 right-2 bg-white rounded-full text-red-600 text-2xl cursor-pointer"
 										onClick={() => setUrl(null)}
 									>
 										&#10007;
@@ -182,7 +182,7 @@ function Gondolas() {
 										<img
 											src={url}
 											alt="Uploaded file"
-											class="w-full h-40 
+											className="w-full h-40 
 											 object-center rounded-lg"
 										/>
 									)}
