@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Select from "react-select";
-import BackButton from "./BotomBack";
-import SelectOptions from "./SelectOptions";
-import Spinner from "./spinner";
-import Submit from "./Submit";
+import BackButton from "../BotomBack";
+import SelectOptions from "../SelectOptions";
+import Spinner from "../spinner";
+import Submit from "../Submit";
 import {
 	getDownloadURL,
 	getStorage,
@@ -13,8 +13,8 @@ import {
 	uploadBytesResumable,
 } from "firebase/storage";
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../firebase/firebase.config";
-import { optionsRubros } from "../utils/gondolasUtils";
+import { firebaseConfig } from "../../firebase/firebase.config";
+import { optionsRubros } from "../../utils/gondolasUtils";
 
 function Gondolas() {
 	const app = initializeApp(firebaseConfig);

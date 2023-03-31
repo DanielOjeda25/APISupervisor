@@ -3,13 +3,12 @@ import { useForm } from "react-hook-form";
 import {
 	vendedorOptions,
 	localidadesOptions,
-	preciosOptions,
 	tipoCanalOptions,
 	tipoClienteOptions,
 	tiempoOptions,
-} from "../utils/ComercialUtils";
-import BackButton from "./BotomBack";
-import Selector from "./Selector";
+} from "../../utils/ComercialUtils";
+import BackButton from "../BotomBack";
+import Selector from "../Selector";
 
 export default function Comercial() {
 	const { register, handleSubmit } = useForm();

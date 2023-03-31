@@ -1,5 +1,5 @@
 import React from "react";
-import BackButton from "./BotomBack";
+import BackButton from "../BotomBack";
 
 const Actualizacion = () => {
 	return (
