@@ -40,7 +40,6 @@ const Home = () => {
 					label="Seguimiento Comercial"
 					className="my-2 sm:my-0 sm:mx-2 w-full sm:w-auto"
 					onClick={handleSeguimientoComercialClick}
-					disabled={true}
 				/>
 				<div className="h-6" />
 				<Button

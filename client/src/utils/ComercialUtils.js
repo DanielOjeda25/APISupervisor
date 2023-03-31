@@ -6,11 +6,11 @@ const localidadesOptions = [
 ];
 
 const vendedorOptions = [
-  { value: "100", label: "Vendedor 1" },
-  { value: "200", label: "Vendedor 2" },
-  { value: "300", label: "Vendedor 3" },
-  { value: "400", label: "Vendedor 4" },
-  { value: "500", label: "Vendedor 5" },
+  { value: "Vendedor 1", label: "Vendedor 1" },
+  { value: "Vendedor 2", label: "Vendedor 2" },
+  { value: "Vendedor 3", label: "Vendedor 3" },
+  { value: "Vendedor 4", label: "Vendedor 4" },
+  { value: "Vendedor 5", label: "Vendedor 5" },
 ];
 
 const preciosOptions = [
@@ -32,4 +32,9 @@ const tipoClienteOptions = [
   { value: "empresa", label: "Empresa" },
 ];
 
-export { localidadesOptions, vendedorOptions, tipoCanalOptions, tipoClienteOptions,preciosOptions }
+const tiempoOptions = [
+  { value: "1", label: "1 mes" },
+  { value: "2", label: "3 meses" },
+];
+
+export { localidadesOptions, vendedorOptions, tipoCanalOptions, tipoClienteOptions,preciosOptions, tiempoOptions }

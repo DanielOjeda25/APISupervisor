@@ -6,14 +6,16 @@ import {
 	preciosOptions,
 	tipoCanalOptions,
 	tipoClienteOptions,
+	tiempoOptions,
 } from "../utils/ComercialUtils";
 import BackButton from "./BotomBack";
+import Selector from "./Selector";
 
 export default function Comercial() {
 	const { register, handleSubmit } = useForm();
-	const [fechaSeleccionada, setFechaSeleccionada] = useState("");
+	const [fechaDesdeSeleccionada, setFechaDesdeSeleccionada] = useState("");
+	const [fechaHastaSeleccionada, setFechaHastaSeleccionada] = useState("");
 	const [localidadSeleccionada, setLocalidadSeleccionada] = useState("");
-	const [listaPrecio, setListaPrecio] = useState("");
 	const [tipoCanalSeleccionado, setTipoCanalSeleccionado] = useState("");
 	const [vendedor, setVendedor] = useState("");
 	const [tipoClienteSeleccionado, setTipoClienteSeleccionado] = useState("");
@@ -24,15 +26,16 @@ export default function Comercial() {
 		// Generar los datos de la tabla
 		const datos = [
 			{
-				fecha: fechaSeleccionada,
+				fechaDesde: fechaDesdeSeleccionada,
+				fechaHasta: fechaHastaSeleccionada,
 				localidad: localidadSeleccionada,
-				listaPrecio: listaPrecio,
 				tipoCanal: tipoCanalSeleccionado,
 				vendedor: vendedor,
 				tipoCliente: tipoClienteSeleccionado,
 				tiempo: tiempoSeleccionado,
 			},
 		];
+
 		console.table(datos);
 		// Actualizar el estado con los datos de la tabla
 		setTablaDatos(datos);
@@ -43,112 +46,79 @@ export default function Comercial() {
 			<BackButton />
 			<form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-md">
 				<div className="flex flex-col space-y-4">
-					<label htmlFor="fecha" className="font-bold">
-						Selecciona una fecha:
+					<label htmlFor="fecha-desde" className="font-bold">
+						Fecha desde:
 					</label>
 					<input
+						required
 						type="date"
-						id="fecha"
-						{...register("fecha")}
+						id="fecha-desde"
+						{...register("fecha-desde")}
 						min="2000-01-01"
 						className="border border-gray-400 p-2"
-						onChange={(e) => setFechaSeleccionada(e.target.value)}
+						onChange={(e) => setFechaDesdeSeleccionada(e.target.value)}
 					/>
 
-					<label htmlFor="localidad" className="font-bold">
-						Localidades:
+					<label htmlFor="fecha-hasta" className="font-bold">
+						Fecha hasta:
 					</label>
-					<select
-						id="localidad"
-						{...register("localidad")}
+					<input
+						required
+						type="date"
+						id="fecha-hasta"
+						{...register("fecha-hasta")}
+						min="2012-01-01"
 						className="border border-gray-400 p-2"
-						onChange={(e) => setLocalidadSeleccionada(e.target.value)}
-					>
-						{localidadesOptions.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.label}
-							</option>
-						))}
-					</select>
+						onChange={(e) => setFechaHastaSeleccionada(e.target.value)}
+					/>
 
-					<label htmlFor="precio" className="font-bold">
-						Lista Precios:
-					</label>
-					<select
-						id="precio"
-						{...register("precio")}
-						className="border border-gray-400 p-2"
-						onChange={(e) => setListaPrecio(e.target.value)}
-					>
-						{preciosOptions.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.label}
-							</option>
-						))}
-					</select>
+					<Selector
+						label={"Localidad: "}
+						options={localidadesOptions}
+						value={{
+							value: localidadSeleccionada,
+							label: localidadSeleccionada,
+						}}
+						onChange={(option) => setLocalidadSeleccionada(option.value)}
+					/>
+					<Selector
+						label={"Tipo de Canal: "}
+						options={tipoCanalOptions}
+						value={{
+							value: tipoCanalSeleccionado,
+							label: tipoCanalSeleccionado,
+						}}
+						onChange={(option) => setTipoCanalSeleccionado(option.value)}
+					/>
 
-					<label htmlFor="tipoCanal" className="font-bold">
-						Tipo de Canal:
-					</label>
-					<select
-						id="tipoCanal"
-						{...register("tipoCanal")}
-						className="border border-gray-400 p-2"
-						onChange={(e) => setTipoCanalSeleccionado(e.target.value)}
-					>
-						{tipoCanalOptions.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.label}
-							</option>
-						))}
-					</select>
+					<Selector
+						label={"Vendedor: "}
+						options={vendedorOptions}
+						value={{
+							value: vendedor,
+							label: vendedor,
+						}}
+						onChange={(option) => setVendedor(option.value)}
+					/>
 
-					<label htmlFor="vendedor" className="font-bold">
-						Vendedor:
-					</label>
-					<select
-						id="vendedor"
-						{...register("vendedor")}
-						className="border border-gray-400 p-2"
-						onChange={(e) => setVendedor(e.target.value)}
-					>
-						{vendedorOptions.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.label}
-							</option>
-						))}
-					</select>
-
-					<label htmlFor="tipoCliente" className="font-bold">
-						Tipo de Cliente:
-					</label>
-					<select
-						id="tipoCliente"
-						{...register("tipoCliente")}
-						className="border border-gray-400 p-2"
-						onChange={(e) => setTipoClienteSeleccionado(e.target.value)}
-					>
-						{tipoClienteOptions.map((option) => (
-							<option key={option.value} value={option.value}>
-								{option.label}
-							</option>
-						))}
-					</select>
-
-					<label htmlFor="tiempo" className="font-bold">
-						Tiempo:
-					</label>
-					<select
-						id="tiempo"
-						{...register("tiempo")}
-						className="border border-gray-400 p-2"
-						onChange={(e) => setTiempoSeleccionado(e.target.value)}
-					>
-						<option value="1">1 meses</option>
-						<option value="2">3 meses</option>
-						<option value="3">6 días</option>
-					</select>
-
+					<Selector
+						label={"Tipo de Cliente: "}
+						options={tipoClienteOptions}
+						value={{
+							value: tipoClienteSeleccionado,
+							label: tipoClienteSeleccionado,
+						}}
+						onChange={(option) => setTipoClienteSeleccionado(option.value)}
+					/>
+					<Selector
+						label={"Tiempo: "}
+						options={tiempoOptions}
+						value={{
+							value: tiempoSeleccionado,
+							label: tiempoSeleccionado,
+						}}
+						onChange={(option) => setTiempoSeleccionado(option.value)}
+					/>
 					<button
 						type="submit"
 						className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -160,25 +130,20 @@ export default function Comercial() {
 							<table className="table-auto divide-y w-full text-center bg-gray-100 rounded-lg">
 								<thead>
 									<tr>
-										<th className="px-4 py-2">Fecha</th>
 										<th className="px-4 py-2">Localidad</th>
-										<th className="px-4 py-2">Lista de Precio</th>
 										<th className="px-4 py-2">Tipo de Canal</th>
-										<th className="px-4 py-2">Precio Diario</th>
+										<th className="px-4 py-2">Vendedor</th>
 										<th className="px-4 py-2">Tipo de Cliente</th>
-										<th className="px-4 py-2">Tiempo</th>
 									</tr>
 								</thead>
 								<tbody>
 									{tablaDatos.map((datos, index) => (
+										// rome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 										<tr key={index}>
-											<td className="px-4 py-2">{datos.fecha}</td>
 											<td className="px-4 py-2">{datos.localidad}</td>
-											<td className="px-4 py-2">{datos.listaPrecio}</td>
 											<td className="px-4 py-2">{datos.tipoCanal}</td>
-											<td className="px-4 py-2">{datos.precioDiario}</td>
+											<td className="px-4 py-2">{datos.vendedor}</td>
 											<td className="px-4 py-2">{datos.tipoCliente}</td>
-											<td className="px-4 py-2">{datos.tiempo}</td>
 										</tr>
 									))}
 								</tbody>
