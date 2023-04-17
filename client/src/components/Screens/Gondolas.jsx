@@ -158,7 +158,7 @@ function Gondolas() {
 							</div>
 							<div className="w-full">
 								<button
-									className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded w-full md:w-auto"
+									className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-2 rounded-lg w-full md:w-auto"
 									onClick={handleUpload}
 									type='button'
 								>
@@ -194,6 +194,11 @@ function Gondolas() {
 					</form>
 				</>
 			)}
+			<div className="absolute bottom-3">
+				<p className="text-center text-slate-50 font-thin">
+					Antes de apretar el boton <strong className="underline">Enviar Datos</strong> <br />asegurese de <strong className="underline">Subir la foto!</strong>
+				</p>
+			</div>
 		</div>
 	);
 }

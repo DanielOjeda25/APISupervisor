@@ -53,7 +53,7 @@ var queryDBGondolas = function queryDBGondolas() {
 };
 var GetGondolas = /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(req, res) {
-    var pool, query, result, records, i, imagenBuffer;
+    var pool, query, result, records;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
@@ -68,27 +68,19 @@ var GetGondolas = /*#__PURE__*/function () {
         case 7:
           result = _context2.sent;
           records = result.recordset;
-          for (i = 0; i < records.length; i++) {
-            imagenBuffer = new Buffer.from(records[i].imagen);
-            imagenBuffer = imagenBuffer.toString();
-            console.log(imagenBuffer);
-            // rome-ignore lint/performance/noDelete: <explanation> */
-            delete records[i].imagen;
-            records[i].imagen = imagenBuffer;
-          }
           res.status(200).json(records);
-          _context2.next = 17;
+          _context2.next = 16;
           break;
-        case 13:
-          _context2.prev = 13;
+        case 12:
+          _context2.prev = 12;
           _context2.t0 = _context2["catch"](0);
           console.log(_context2.t0);
           res.status(500).send("Error al obtener las góndolas.");
-        case 17:
+        case 16:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 13]]);
+    }, _callee2, null, [[0, 12]]);
   }));
   return function GetGondolas(_x3, _x4) {
     return _ref2.apply(this, arguments);
