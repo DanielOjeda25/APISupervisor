@@ -118,7 +118,7 @@ function Gondolas() {
 					<BackButton />
 					<form
 						onSubmit={handleSubmit(onSubmit)}
-						className="max-w-md mx-auto border border-gray-200 p-6 rounded-lg bg-slate-100"
+						className="max-w-md mx-auto border border-gray-200 p-6 rounded-lg bg-slate-100 my-2"
 					>
 						<SelectOptions
 							label={"Rubros: "}
@@ -194,8 +194,8 @@ function Gondolas() {
 					</form>
 				</>
 			)}
-			<div className="absolute bottom-5">
-				<p className="text-center text-slate-50 font-thin">
+			<div className=" my-6">
+				<p className="text-center text-slate-50 font-thin mb-2">
 					Antes de apretar el boton <strong className="underline">Enviar Datos</strong> <br />asegurese de <strong className="underline">Subir la foto!</strong>
 				</p>
 			</div>
