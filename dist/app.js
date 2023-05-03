@@ -5,19 +5,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _express = _interopRequireDefault(require("express"));
+var _path = _interopRequireDefault(require("path"));
 var _dbConfig = _interopRequireDefault(require("./dbConfig.js"));
 var _rubrosRoutes = _interopRequireDefault(require("./routes/rubros.routes.js"));
 var _idClientesRoutes = _interopRequireDefault(require("./routes/idClientes.routes.js"));
 var _indexRoutes = _interopRequireDefault(require("./routes/index.routes.js"));
 var _gondolasRoutes = _interopRequireDefault(require("./routes/gondolas.routes.js"));
-var _cors2 = _interopRequireDefault(require("cors"));
+var _cors = _interopRequireDefault(require("cors"));
 var _bodyParser = _interopRequireDefault(require("body-parser"));
-var _cors;
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var app = (0, _express["default"])();
 app.set("port", _dbConfig["default"].port);
 app.use(_express["default"].json());
@@ -27,12 +23,19 @@ app.use(_express["default"].urlencoded({
 app.use(_bodyParser["default"].urlencoded({
   extended: true
 }));
-app.use((0, _cors2["default"])((_cors = {
-  origin: "http://127.0.0.1:5173"
-}, _defineProperty(_cors, "origin", "http://localhost:4000"), _defineProperty(_cors, "origin", "http://10.211.55.6:8080/idClientes"), _defineProperty(_cors, "origin", '*'), _defineProperty(_cors, "origin", 'https://bmn-deliverydron.com/'), _defineProperty(_cors, "origin", '149.100.155.1'), _defineProperty(_cors, "origin", '149.100.155.33'), _cors)));
+app.use((0, _cors["default"])({
+  origin: '*'
+}));
 app.use(_rubrosRoutes["default"]);
 app.use(_idClientesRoutes["default"]);
 app.use(_indexRoutes["default"]);
 app.use(_gondolasRoutes["default"]);
+app.listen(8080);
+console.log("server on port http://localhost:8080");
+// Servir archivo index.html
+app.use(_express["default"]["static"](_path["default"].join(__dirname, "dist")));
+app.get("/", function (req, res) {
+  res.sendFile(_path["default"].join(__dirname, "dist", "public", "index.html"));
+});
 var _default = app;
 exports["default"] = _default;

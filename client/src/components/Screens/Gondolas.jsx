@@ -194,7 +194,7 @@ function Gondolas() {
 					</form>
 				</>
 			)}
-			<div className="absolute bottom-3">
+			<div className="absolute bottom-5">
 				<p className="text-center text-slate-50 font-thin">
 					Antes de apretar el boton <strong className="underline">Enviar Datos</strong> <br />asegurese de <strong className="underline">Subir la foto!</strong>
 				</p>

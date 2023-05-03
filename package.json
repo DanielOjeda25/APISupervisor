@@ -5,10 +5,11 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon src/index.js --exec babel-node ",
-    "build": "set NODE_ENV=production&& babel src -d dist",
-    "start": "node dist/index.js"
+    "dev": "nodemon ./src/app.js --exec babel-node",
+    "build": "set NODE_ENV=production && babel ./src/app.js -d dist && cp -r public dist",
+    "start": "node dist/app.js"
   },
+  
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -25,10 +26,10 @@
     "react-hook-form": "^7.43.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.20.7",
-    "@babel/core": "^7.20.12",
+    "@babel/cli": "^7.21.5",
+    "@babel/core": "^7.21.8",
     "@babel/node": "^7.20.7",
-    "@babel/preset-env": "^7.20.2",
+    "@babel/preset-env": "^7.21.5",
     "nodemon": "^2.0.20"
   }
 }
