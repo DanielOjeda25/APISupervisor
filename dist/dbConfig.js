@@ -9,12 +9,12 @@ var _dotenv = require("dotenv");
 var dbConfig;
 var _default = dbConfig = {
   server: process.env.SERVER,
-  port: process.env.PORT || 3000,
+  port: process.env.PORT,
   user: process.env.USER,
   password: process.env.PASSWORD,
   database: process.env.DATABASE,
-  driver: process.env.DRIVER,
-  timeout: 150000,
-  connectionTimeout: 150000
+  driver: 'msnodesqlv8',
+  connectionTimeout: '15000',
+  requestTimeout: '15000'
 };
 exports["default"] = _default;

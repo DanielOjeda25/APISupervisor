@@ -29,7 +29,7 @@ app.use(_bodyParser["default"].urlencoded({
 }));
 app.use((0, _cors2["default"])((_cors = {
   origin: "http://127.0.0.1:5173"
-}, _defineProperty(_cors, "origin", "http://localhost:4000"), _defineProperty(_cors, "origin", "http://10.211.55.5:8080/idClientes"), _defineProperty(_cors, "origin", '*'), _cors)));
+}, _defineProperty(_cors, "origin", "http://localhost:4000"), _defineProperty(_cors, "origin", "http://10.211.55.6:8080/idClientes"), _defineProperty(_cors, "origin", '*'), _defineProperty(_cors, "origin", 'https://bmn-deliverydron.com/'), _defineProperty(_cors, "origin", '149.100.155.1'), _defineProperty(_cors, "origin", '149.100.155.33'), _cors)));
 app.use(_rubrosRoutes["default"]);
 app.use(_idClientesRoutes["default"]);
 app.use(_indexRoutes["default"]);

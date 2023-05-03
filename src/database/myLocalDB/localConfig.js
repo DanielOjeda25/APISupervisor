@@ -9,6 +9,4 @@ export default dbConfig = {
   password: process.env.PASSWORD_LOCAL,
   database: process.env.DATABASE_LOCAL,
   driver: process.env.DRIVER,
-  timeout: 150000,
-  connectionTimeout: 150000
 }

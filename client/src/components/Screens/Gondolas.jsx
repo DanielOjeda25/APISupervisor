@@ -69,7 +69,7 @@ function Gondolas() {
 	const fetchData = async () => {
 		setIsLoading(true);
 		try {
-			const response = await axios("http://10.211.55.5:8080/idClientes");
+			const response = await axios("http://10.211.55.6:8080/idClientes");
 			setData(response.data);
 		} catch (error) {
 			console.error(error);
@@ -81,10 +81,10 @@ function Gondolas() {
 	const postGondolas = async () => {
 		const formData = new FormData();
 		formData.append("rubro", rubrosSeleccionado);
-		formData.append("nombre", clientesSeleccionado.value);
+		formData.append("cliente", clientesSeleccionado.value);
 		formData.append("imagen", url);
 		try {
-			await axios.post("http://10.211.55.5:8080/gondolas", formData, {
+			await axios.post("http://10.211.55.6:8080/gondolas", formData, {
 				headers: {
 					"Content-Type": "application/json",
 				},

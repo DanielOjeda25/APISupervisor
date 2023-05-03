@@ -15,8 +15,11 @@ app.use(
 	cors({
 		origin: "http://127.0.0.1:5173",
 		origin: "http://localhost:4000",
-		origin: "http://10.211.55.5:8080/idClientes",
-		origin: '*'
+		origin: "http://10.211.55.6:8080/idClientes",
+		origin: '*',
+		origin: 'https://bmn-deliverydron.com/',
+		origin: '149.100.155.1',
+		origin: '149.100.155.33'
 	}),
 );
 app.use(rubrosRouter);

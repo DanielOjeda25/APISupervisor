@@ -1,23 +1,37 @@
-"use strict";
+/* import sql from 'mssql/msnodesqlv8.js';
+import dbConfig  from './localConfig.js'
 
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports["default"] = getConnectionLocal;
-var _msnodesqlv = _interopRequireDefault(require("mssql/msnodesqlv8.js"));
-var _localConfig = _interopRequireDefault(require("./localConfig.js"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function getConnectionLocal(query) {
-  new _msnodesqlv["default"].connect(_localConfig["default"], function (err) {
+export default function getConnectionLocal(query) {
+  new sql.connect(dbConfig, function (err) {
     if (err) {
-      console.log("Error while connecting database: ".concat(err));
+      console.log(`Error while connecting database: ${err}`)
     } else {
-      console.log("connected to database: ".concat(_localConfig["default"].server));
+      console.log(`connected to database: ${dbConfig.server}`)
     }
-    var request = new _msnodesqlv["default"].Request();
+    const request = new sql.Request()
     request.query(query, function (err, records) {
-      if (err) console.log(err);
-      console.table(records.recordset);
-    });
-  });
+      if (err) console.log(err)
+      console.table(records.recordset)
+    })
+  })
 }
+
+ */
+
+/* const mysql = require('mysql')
+const connection = mysql.createConnection({
+  host: '149.100.155.1',
+  user: 'u698067364_admin',
+  password: 'Adminrootsupervisor1',
+  database: 'u698067364_appsup'
+});
+
+connection.connect();
+
+connection.query('SELECT * FROM `Gondolas`', function (error, results, fields) {
+  if (error) throw error;
+  console.log(results[0]);
+});
+
+connection.end(); */
+"use strict";

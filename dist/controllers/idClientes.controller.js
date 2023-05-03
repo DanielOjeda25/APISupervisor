@@ -16,7 +16,7 @@ var getIdCliente = /*#__PURE__*/function () {
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
-          query = "SELECT DISTINCT [idcliente],[nombre],[nombre_localidad],[vendedor],[supervisor] FROM [Bamana].[dbo].[vwCuboClientes] WHERE [nombre_provincia] = 'MISIONES' ORDER BY [nombre] ASC";
+          query = "SELECT DISTINCT [idcliente],[nombre] FROM [Bamana].[dbo].[vwCuboClientes] WHERE [nombre_provincia] = 'MISIONES' ORDER BY [nombre] ASC";
           _context.prev = 1;
           request = _pool["default"].request();
           _context.next = 5;
@@ -29,7 +29,7 @@ var getIdCliente = /*#__PURE__*/function () {
         case 9:
           _context.prev = 9;
           _context.t0 = _context["catch"](1);
-          console.log("Error while connecting database: ".concat(_context.t0));
+          console.log("Error al conectarse a la base de datos: ".concat(_context.t0));
           res.status(500).send('Internal server error');
         case 13:
         case "end":

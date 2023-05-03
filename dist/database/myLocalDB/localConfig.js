@@ -13,8 +13,6 @@ var _default = dbConfig = {
   user: process.env.USER_LOCAL,
   password: process.env.PASSWORD_LOCAL,
   database: process.env.DATABASE_LOCAL,
-  driver: process.env.DRIVER,
-  timeout: 150000,
-  connectionTimeout: 150000
+  driver: process.env.DRIVER
 };
 exports["default"] = _default;
