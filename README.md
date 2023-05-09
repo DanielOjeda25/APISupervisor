@@ -2,7 +2,7 @@
 
 Podes hacer un fork del proyecto para trabajar. El proyecto usa nodejs v16.19.1, se conecta a una base de datos mysql que esta alojada en hostinger.
 
-El proyecto esta divido en 2 partes , la parte de "Frontend" , que esta constituida en la carpeta **Client**. La estructura es esta:
+El proyecto esta divido en 2 partes , la parte de "Frontend" hecho en reactjs y creado con el empaquetador VITEJS ,  que esta constituida en la carpeta **Client**. La estructura es esta:
 
 ```text
 /client
