@@ -1,4 +1,7 @@
 # APISupervisor
+
+Podes hacer un fork del proyecto para trabajar. El proyecto usa nodejs v16.19.1, se conecta a una base de datos mysql que esta alojada en hostinger.
+
 El proyecto esta divido en 2 partes , la parte de "Frontend" , que esta constituida en la carpeta **Client**. La estructura es esta:
 
 ```text
@@ -44,6 +47,29 @@ const fetchData = async () => {
 	};
 ```
 
-El archivo _"Actualizacion.jsx"_ no se usa, asi que podes ignorarlo o eliminarlo.
+El componente _"Actualizacion.jsx"_ no se usa, asi que podes ignorarlo o eliminarlo.
 
-El archivo _"Comercial"_ redirecciona a la pagina "tablero.bamana" que es donde los supervisores van a revisar datos.(No te recomiendo tocar este componente)
+El componente _"Comercial"_ redirecciona a la pagina "tablero.bamana" que es donde los supervisores van a revisar datos.(No te recomiendo tocar este componente)
+
+El componente _Home.jsx_ solamente enseña las direcciones.
+
+La carpeta **dist** es la de distribucion que se creo con "npm run build", pero no sirve para desplegar.
+La carpeta **public** esta carpeta esta de sobra.
+
+## La API (backend)
+El backend esta hecho en nodejs 
+
+```text
+/
+├── src/
+│   ├── controllers/              # controladores de las rutas
+│   ├── database/          #conexion a la base de datos
+│   ├── routes/            # rutas de la api
+│   ├── app.js/               # inicio de la app
+├── node_modules/            # Dependencias de Node.js instaladas por npm
+├── package.json             # Archivo de configuración de npm con las dependencias y los scripts
+```
+
+Pequeñas recomendaciones, el codigo estara documentado, para su mejor entendimiento, prueba que corra en localhost antes de hostear el backend, esta todo configurado para que funcione al instalar las dependecias y se debera conectar a las instancias de las bases de datos, hace consultas a la base de datos de la empresa Bamana que es SQL Server, y envie request a una instancia de MYSQL Server.
+
+Para consultarme dudas **PUNTUALES** sobre el proyecto escribe a ojedadanielalejandro333@gmail.com
