@@ -12,3 +12,6 @@ export default dbConfig = {
   connectionTimeout: '15000',
   requestTimeout: '15000'
 }
+
+//los datos que deberian ir en cada uno, te los tiene que proporcionar el Jefe, para conectarte a su base
+// de datos

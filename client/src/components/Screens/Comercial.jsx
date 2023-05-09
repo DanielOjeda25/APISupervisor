@@ -154,3 +154,5 @@ export default function Comercial() {
 		</div>
 	);
 }
+
+//Componente que no es llamado

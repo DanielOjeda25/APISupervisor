@@ -1,3 +1,4 @@
+// Estos son valores que se usaron para hacer pruebas, pero no son relevantes.
 const localidadesOptions = [
   { value: "buenos_aires", label: "Buenos Aires" },
   { value: "cordoba", label: "Córdoba" },

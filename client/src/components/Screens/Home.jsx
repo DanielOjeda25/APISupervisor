@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 
+// Componente reutilizable de botón
 function Button({ label, onClick, disabled }) {
 	return (
 		<button
@@ -12,19 +13,24 @@ function Button({ label, onClick, disabled }) {
 	);
 }
 
+// Componente de la página principal (Home)
 const Home = () => {
+	// Hook de React Router que permite navegar a otras páginas
 	const navigate = useNavigate();
 
+	// Función que se ejecuta al hacer clic en el botón "Góndolas"
 	const handleGondolasClick = () => {
-		navigate("/gondolas");
+		navigate("/gondolas"); // Navegar a la página "/gondolas"
 	};
 
+	// Función que se ejecuta al hacer clic en el botón "Seguimiento Comercial"
 	const handleSeguimientoComercialClick = () => {
-		navigate("/comercial");
+		navigate("/comercial"); // Navegar a la página "/comercial"
 	};
 
+	// Función que se ejecuta al hacer clic en el botón "Actualización"
 	const handleActualizacionClick = () => {
-		navigate("/actualizacion");
+		navigate("/actualizacion"); // Navegar a la página "/actualizacion"
 	};
 
 	return (
@@ -35,12 +41,12 @@ const Home = () => {
 					<Button
 						label="Góndolas"
 						className="my-2  sm:my-0 sm:mx-2 w-full sm:w-auto"
-						onClick={handleGondolasClick}
+						onClick={handleGondolasClick} // Asignar la función handleGondolasClick al evento onClick del botón "Góndolas"
 					/>
 					<div className="h-6" />
 					<Link
 						className="my-2 sm:my-0 sm:mx-2  sm:w-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-						to={"http://tablero.bamana.com.ar/comercial"}
+						to={"http://tablero.bamana.com.ar/comercial"} // Enlazar a la página "http://tablero.bamana.com.ar/comercial" al hacer clic en el botón "Seguimiento Comercial"
 					>
 						Seguimiento Comercial
 					</Link>

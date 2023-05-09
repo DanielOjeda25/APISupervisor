@@ -1,3 +1,4 @@
+//este archivo es  IMPORTANTE  de aqui salen los valores que salen de los rubros.
 const optionsRubros = [
 	{ value: "ACEITES", label: "ACEITES" },
 	{ value: "AEROS  DESO - DESINFECT", label: "AEROS  DESO - DESINFECT" },

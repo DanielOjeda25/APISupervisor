@@ -1,6 +1,7 @@
 import React from "react";
 
 const Submit = () => {
+  // Componente que muestra un botón de envío de datos
 	return (
 		<div>
 			<button

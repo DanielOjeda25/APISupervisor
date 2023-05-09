@@ -8,24 +8,33 @@ import {
 } from "firebase/storage";
 import { firebaseConfig } from "../firebase/firebase.config";
 
-
-// Initialize Firebase
+// Inicializa la aplicación de Firebase
 const app = initializeApp(firebaseConfig);
+
+// Obtiene una referencia al servicio de almacenamiento de Firebase
 const storage = getStorage(app);
 
 const FirebaseStorage = () => {
+	// Define los estados iniciales para el archivo, la URL y los errores
 	const [file, setFile] = useState(null);
 	const [url, setUrl] = useState("");
 	const [error, setError] = useState("");
 
+	// Maneja el cambio del input de tipo "file"
 	const handleChange = (event) => {
 		setFile(event.target.files[0]);
 	};
+
+	// Maneja la subida del archivo
 	const handleUpload = () => {
 		if (file) {
+			// Crea una referencia al archivo en el almacenamiento de Firebase
 			const storageRef = ref(storage, `images/${file.name}`);
+
+			// Sube el archivo al almacenamiento de Firebase
 			const uploadTask = uploadBytesResumable(storageRef, file);
 
+			// Maneja los cambios en el estado de la subida del archivo
 			uploadTask.on(
 				"state_changed",
 				(snapshot) => {
@@ -37,6 +46,7 @@ const FirebaseStorage = () => {
 					setError(`Upload error: ${error.message}`);
 				},
 				() => {
+					// Obtiene la URL de descarga del archivo subido
 					getDownloadURL(uploadTask.snapshot.ref).then((getUrl) => {
 						setUrl(getUrl);
 						setFile(null);
@@ -48,6 +58,8 @@ const FirebaseStorage = () => {
 			setError("Please select a file to upload.");
 		}
 	};
+
+	// Renderiza el componente
 	return (
 		<div>
 			<h2>{url}</h2>
@@ -60,3 +72,6 @@ const FirebaseStorage = () => {
 };
 
 export default FirebaseStorage;
+
+//Y no te preocupes creo que este componente no es llamado , se uso en las primeras instancias del proyecto
+//luego se dejo de lado.

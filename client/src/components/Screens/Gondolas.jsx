@@ -17,20 +17,28 @@ import { firebaseConfig } from "../../firebase/firebase.config";
 import { optionsRubros } from "../../utils/gondolasUtils";
 
 function Gondolas() {
+	// Se importan las librerías y componentes necesarios
+	// Incluyendo Firebase y sus configuraciones
 	const app = initializeApp(firebaseConfig);
 	const storage = getStorage(app);
 	const [data, setData] = useState([]);
+	// Se inicializa un estado para los datos que se obtendrán
 	const [rubrosSeleccionado, setRubrosSeleccionado] = useState("");
 	const [clientesSeleccionado, setClientesSeleccionado] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
 	const [file, setFile] = useState(null);
 	const [url, setUrl] = useState("");
 	const [error, setError] = useState("");
+	// Se inicializan los estados para las selecciones del usuario
+	// Para la carga de datos, carga de archivos y control de errores
+
 
 	const handleChange = (event) => {
 		setFile(event.target.files[0]);
 	};
+	// Se maneja el cambio del archivo seleccionado por el usuario
 	const handleUpload = () => {
+		// Se maneja la carga del archivo seleccionado por el usuario
 		if (file) {
 			const storageRef = ref(storage, `images/${file.name}`);
 			const uploadTask = uploadBytesResumable(storageRef, file);
@@ -56,6 +64,7 @@ function Gondolas() {
 			setError("Por favor selecciona una foto.");
 		}
 	};
+	// Se inicializa el formulario y sus elementos con la ayuda de React Hook Form
 	const {
 		handleSubmit,
 		formState: { errors },
@@ -66,39 +75,56 @@ function Gondolas() {
 	useEffect(() => {
 		fetchData();
 	}, []);
+	// Se utiliza useEffect para cargar los datos al inicio de la aplicación
+	// Definimos una función asíncrona llamada fetchData
 	const fetchData = async () => {
+		// Establecemos isLoading en true, para indicar que se está cargando la información
 		setIsLoading(true);
 		try {
+			// Hacemos una petición HTTP utilizando la librería Axios a una URL determinada, que en este caso es http://10.211.55.6:8080/idClientes
 			const response = await axios("http://10.211.55.6:8080/idClientes");
+			// Una vez que se recibe la respuesta, establecemos los datos recibidos en el estado de la aplicación
 			setData(response.data);
+			// Comentario para indicar que se ha hecho la petición de los datos
 		} catch (error) {
+			// Si ocurre algún error, lo registramos en la consola y mostramos una alerta al usuario
 			console.error(error);
 			alert("Ha ocurrido un error al cargar los clientes.");
 		} finally {
+			// Por último, establecemos isLoading en false para indicar que ya no se está cargando la información
 			setIsLoading(false);
 		}
 	};
+
 	const postGondolas = async () => {
+		// Se crea un nuevo objeto FormData que se utilizará para enviar los datos del formulario
 		const formData = new FormData();
+		// Se agregan los valores de los campos del formulario al objeto FormData
 		formData.append("rubro", rubrosSeleccionado);
 		formData.append("cliente", clientesSeleccionado.value);
 		formData.append("imagen", url);
 		try {
+			// Se hace una petición POST a la API con los datos del formulario en el objeto FormData
 			await axios.post("http://10.211.55.6:8080/gondolas", formData, {
 				headers: {
+					// Se especifica que se está enviando JSON
 					"Content-Type": "application/json",
 				},
 			});
+			// Si la petición fue exitosa, se muestra una alerta indicando que se envió el formulario correctamente
 			alert("¡El formulario se ha enviado correctamente!");
 		} catch (error) {
+			// Si ocurre un error en la petición, se muestra una alerta indicando que ocurrió un error
 			console.error(error);
 			alert("Ha ocurrido un error al enviar el formulario.");
 		} finally {
+			// Se borran los valores de los campos del formulario después de enviarlo
 			setUrl("");
 			setClientesSeleccionado("");
 			setRubrosSeleccionado("");
 		}
 	};
+
 	const onSubmit = async () => await postGondolas();
 
 	const handleRubrosChange = (event) => {
